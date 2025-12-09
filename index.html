@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Evened - Session d'écoute</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #0b1120;
+      color: #e5e7eb;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .title {
+      font-size: 1.8rem;
+      font-weight: 650;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      margin-bottom: 1.5rem;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #1d2537, #020617);
+      border-radius: 1.25rem;
+      padding: 24px 24px 20px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background-color: rgba(34,197,94,0.08);
+      color: #bbf7d0;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background-color: #22c55e;
+    }
+
+    .station-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .meta {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.3);
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      color: #e5e7eb;
+      background-color: rgba(15,23,42,0.8);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stat {
+      padding: 10px 12px;
+      border-radius: 0.9rem;
+      background-color: rgba(15,23,42,0.95);
+      border: 1px solid rgba(55,65,81,0.7);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-bottom: 3px;
+    }
+
+    .stat-value {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .list {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(75,85,99,0.8);
+    }
+
+    .list-title {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+
+    .species-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .species-chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.4);
+      font-size: 0.8rem;
+      background-color: rgba(31,41,55,0.9);
+    }
+
+    .weather {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(75,85,99,0.8);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: #d1d5db;
+    }
+
+    .weather-pill {
+      border-radius: 999px;
+      padding: 4px 10px;
+      background-color: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.8);
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: #6b7280;
+      text-align: right;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 16px;
+      }
+      .card {
+        padding: 18px 16px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">Evened – Session d'écoute</div>
+    <div class="subtitle">Visualisation de la session du jour à partir de tes données locales.</div>
+
+    <div class="card" id="session-card">
+      <!-- Contenu injecté en JS -->
+    </div>
+
+    <div class="footer">
+      Prototype v0.1 – Affichage d'une seule session depuis <code>session_today.json</code>
+    </div>
+  </div>
+
+  <script>
+    function formatDate(isoString) {
+      const d = new Date(isoString);
+      if (isNaN(d)) return "Date inconnue";
+      return d.toLocaleString("fr-FR", {
+        weekday: "short",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds || seconds <= 0) return "–";
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      if (h === 0) return `${m} min`;
+      return `${h} h ${m.toString().padStart(2, "0")} min`;
+    }
+
+    async function loadSession() {
+      const card = document.getElementById("session-card");
+
+      try {
+        const resp = await fetch("session_today.json");
+        if (!resp.ok) throw new Error("Impossible de charger session_today.json");
+        const s = await resp.json();
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <div class="station-name">${s.station_name || s.station_id}</div>
+              <div class="meta">
+                Session <strong>${s.session_type || "bird_audio"}</strong><br>
+                Du ${formatDate(s.start_time)}<br>
+                Durée : ${formatDuration(s.duration_s)}
+              </div>
+              <div class="pill-row">
+                <div class="pill">Session ID : ${s.session_id}</div>
+                <div class="pill">Station : ${s.station_id}</div>
+              </div>
+            </div>
+            <div class="badge">
+              <span class="badge-dot"></span>
+              Données locales
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="stat">
+              <div class="stat-label">Nombre de fichiers</div>
+              <div class="stat-value">${s.nb_wav ?? "–"}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Segments détectés</div>
+              <div class="stat-value">${s.nb_detections ?? "–"}</div>
+            </div>
+            <div class="stat">
+              <div class="stat-label">Espèces différentes</div>
+              <div class="stat-value">${s.nb_species ?? "–"}</div>
+            </div>
+          </div>
+
+          <div class="list">
+            <div class="list-title">Espèces les plus fréquentes</div>
+            <div class="species-list">
+              ${(s.top_species || []).map(name => `
+                <span class="species-chip">${name}</span>
+              `).join("") || "<span style='font-size:0.8rem;color:#6b7280;'>Aucune donnée (pas encore d'analyse BirdNET ?)</span>"}
+            </div>
+          </div>
+
+          <div class="weather">
+            <span class="list-title" style="margin-bottom:0;">Conditions météo au début de la session :</span>
+            ${s.weather_at_start ? `
+              <span class="weather-pill">
+                🌡️ ${s.weather_at_start.temperature_C.toFixed
+                  ? s.weather_at_start.temperature_C.toFixed(1)
+                  : s.weather_at_start.temperature_C} °C
+              </span>
+              <span class="weather-pill">
+                💨 ${s.weather_at_start.wind_m_s} m/s
+              </span>
+              <span class="weather-pill">
+                🌧️ ${s.weather_at_start.rain_mm_h} mm/h
+              </span>
+              <span class="weather-pill">
+                ${s.weather_at_start.description || ""}
+              </span>
+            ` : `
+              <span style="font-size:0.8rem;color:#6b7280;">
+                Pas d'information météo liée à cette session.
+              </span>
+            `}
+          </div>
+        `;
+      } catch (e) {
+        console.error(e);
+        card.innerHTML = `
+          <div style="color:#fca5a5;font-size:0.9rem;">
+            Erreur : impossible de charger <code>session_today.json</code>.<br>
+            Vérifie que le fichier est dans le même dossier que <code>index.html</code>.
+          </div>
+        `;
+      }
+    }
+
+    loadSession();
+  </script>
+</body>
+</html>
