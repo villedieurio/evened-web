@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evened — Web</title>
+  <style>
+    :root{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:#0b1120; color:#e5e7eb;
+    }
+    body{ margin:0; padding:24px; }
+    a{ color: inherit; text-decoration: none; }
+    .container{ max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+    .card{
+      background:#0f172a; border:1px solid rgba(255,255,255,.08);
+      border-radius:16px; padding:16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
+    }
+    h1{ font-size:22px; margin:0 0 6px; }
+    h2{ font-size:16px; margin:0; }
+    .sub{ color:#9ca3af; font-size:14px; margin:0; }
+    .muted{ color:#9ca3af; }
+    .row{ display:grid; grid-template-columns: 1fr; gap:16px; }
+    @media (min-width: 900px){ .row.cols2{ grid-template-columns: 1fr 1fr; } }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px; padding:6px 10px; color:#cbd5e1; font-size:12px;
+      background:rgba(255,255,255,.04);
+    }
+    .toolbar{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; }
+    .left{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    input, select, button{
+      background:#0b1227; color:#e5e7eb; border:1px solid rgba(255,255,255,.12);
+      border-radius:10px; padding:8px 10px;
+    }
+    button{ cursor:pointer; }
+    button:hover{ border-color: rgba(255,255,255,.25); }
+
+    /* FEED */
+    .feedGrid{ display:grid; grid-template-columns: 1fr; gap:12px; }
+    @media (min-width: 700px){ .feedGrid{ grid-template-columns: 1fr 1fr; } }
+    .feedItem{
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px; padding:12px;
+      background: rgba(255,255,255,.03);
+      display:flex; flex-direction:column; gap:8px;
+    }
+    .feedItem:hover{ border-color: rgba(255,255,255,.18); }
+    .kpiRow{ display:flex; gap:10px; flex-wrap:wrap; }
+    .kpiMini{ font-size:12px; color:#cbd5e1; border:1px solid rgba(255,255,255,.10); border-radius:999px; padding:4px 8px; background:rgba(255,255,255,.03); }
+
+    /* SESSION */
+    .kpis{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+    @media (min-width: 700px){ .kpis{ grid-template-columns: repeat(4, 1fr); } }
+    .kpi .label{ color:#9ca3af; font-size:12px; }
+    .kpi .value{ font-size:18px; font-weight:650; margin-top:4px; }
+    table{ width:100%; border-collapse:collapse; font-size:13px; }
+    th, td{ padding:10px 8px; border-bottom:1px solid rgba(255,255,255,.08); }
+    th{ text-align:left; color:#9ca3af; font-weight:600; }
+    .right{ text-align:right; }
+    .badge{
+      display:inline-block; padding:2px 8px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04);
+      font-size:12px; color:#cbd5e1;
+    }
+    canvas{ width:100% !important; height:280px !important; }
+    .hidden{ display:none; }
+    .error{ color:#fca5a5; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- TOP BAR -->
+    <div class="card">
+      <div class="toolbar">
+        <div>
+          <h1>Evened Web</h1>
+          <p class="sub" id="topSubtitle">Feed des sessions</p>
+        </div>
+        <div class="left">
+          <span class="pill" id="pillPublic">🌐 Public: confidence &gt; 0.85</span>
+          <button id="btnHome" class="hidden">← Retour au feed</button>
+        </div>
+      </div>
+      <p class="sub muted" id="topNote"></p>
+      <p class="sub error" id="topError"></p>
+    </div>
+
+    <!-- FEED VIEW -->
+    <div id="feedView" class="card">
+      <div class="toolbar">
+        <div class="left">
+          <h2>📰 Feed</h2>
+          <span class="muted" id="feedCount"></span>
+        </div>
+        <div class="left">
+          <input id="feedSearch" placeholder="Rechercher (lieu, titre, espèce...)" />
+          <select id="feedSort">
+            <option value="newest">Plus récent</option>
+            <option value="duration">Durée</option>
+            <option value="species">Espèces (public)</option>
+            <option value="detections">Détections (public)</option>
+          </select>
+        </div>
+      </div>
+      <div class="feedGrid" id="feedGrid"></div>
+    </div>
+
+    <!-- SESSION VIEW -->
+    <div id="sessionView" class="hidden">
+      <div class="card">
+        <h2 id="sessionTitle">Session</h2>
+        <p class="sub" id="sessionSubtitle"></p>
+        <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px;">
+          <span class="pill" id="pillDevice">🎙️ …</span>
+          <span class="pill" id="pillParams">⚙️ …</span>
+          <span class="pill" id="pillLocation">📍 …</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="kpis" id="kpis"></div>
+      </div>
+
+      <div class="row cols2">
+        <div class="card">
+          <div class="toolbar">
+            <div class="left">
+              <strong>📈 Intensité (timeseries)</strong>
+              <span class="muted" id="chartNote"></span>
+            </div>
+          </div>
+          <canvas id="chart"></canvas>
+        </div>
+
+        <div class="card">
+          <div class="toolbar">
+            <div class="left"><strong>🐦 Top espèces (public)</strong></div>
+            <select id="speciesMetric">
+              <option value="count">Par nombre</option>
+              <option value="duration">Par durée cumulée</option>
+            </select>
+          </div>
+          <div id="topSpecies"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="toolbar">
+          <div class="left">
+            <strong>🎛️ Events</strong>
+            <span class="muted" id="eventsCount"></span>
+          </div>
+          <div class="left">
+            <input id="q" placeholder="Filtrer events (ex: pie, 2 espèces…)" />
+            <label class="pill"><input type="checkbox" id="onlyDetected" /> Détections</label>
+            <label class="pill"><input type="checkbox" id="onlyMulti" /> ≥2 espèces</label>
+          </div>
+        </div>
+        <div style="overflow:auto; margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Event</th>
+                <th class="right">Durée</th>
+                <th class="right">Détections</th>
+                <th class="right">Espèces</th>
+                <th>Top espèce</th>
+                <th class="right">Durée cum. (pub)</th>
+              </tr>
+            </thead>
+            <tbody id="eventsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chart.js (stable, simple) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
