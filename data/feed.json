@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-01-12T16:00:00+01:00",
+  "sessions": [
+    {
+      "session_id": "20260111_003017",
+      "title": "Session du matin",
+      "start_time": "2026-01-11T00:30:17+01:00",
+      "end_time": "2026-01-11T13:24:18+01:00",
+      "location_name": "Jardin",
+      "public_threshold_confidence": 0.85,
+      "paths": {
+        "session": "sessions/20260111_003017/session.json",
+        "events": "sessions/20260111_003017/events.csv",
+        "detections": "sessions/20260111_003017/detections.csv",
+        "timeseries": "sessions/20260111_003017/timeseries.csv"
+      },
+      "kpis_public": {
+        "duration_total_s": 46441,
+        "events_count": 810,
+        "detections_count": 208,
+        "species_unique_count": 14
+      },
+      "top_species_public": [
+        { "species_code": "eurmag1", "common_name": "Pie bavarde", "detections": 191 }
+      ]
+    }
+  ]
+}
