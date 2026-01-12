@@ -1,314 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Evened - Session d'écoute</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evened — Session</title>
   <style>
-    :root {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background-color: #0b1120;
-      color: #e5e7eb;
+    :root{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background:#0b1120; color:#e5e7eb;
     }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 24px;
+    body{ margin:0; padding:24px; }
+    .container{ max-width:1100px; margin:0 auto; }
+    .row{ display:grid; grid-template-columns: 1fr; gap:16px; }
+    @media (min-width: 900px){ .row.cols2{ grid-template-columns: 1fr 1fr; } }
+    .card{
+      background:#0f172a; border:1px solid rgba(255,255,255,.08);
+      border-radius:16px; padding:16px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.25);
     }
-
-    .container {
-      width: 100%;
-      max-width: 900px;
+    h1{ font-size:24px; margin:0 0 6px; }
+    .sub{ color:#9ca3af; font-size:14px; margin:0; }
+    .kpis{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; }
+    @media (min-width: 700px){ .kpis{ grid-template-columns: repeat(4, 1fr); } }
+    .kpi .label{ color:#9ca3af; font-size:12px; }
+    .kpi .value{ font-size:18px; font-weight:650; margin-top:4px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:999px; padding:6px 10px; color:#cbd5e1; font-size:12px;
+      background:rgba(255,255,255,.04);
     }
-
-    .title {
-      font-size: 1.8rem;
-      font-weight: 650;
-      margin-bottom: 0.25rem;
+    .toolbar{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+    input, select{
+      background:#0b1227; color:#e5e7eb; border:1px solid rgba(255,255,255,.12);
+      border-radius:10px; padding:8px 10px;
     }
-
-    .subtitle {
-      font-size: 0.95rem;
-      color: #9ca3af;
-      margin-bottom: 1.5rem;
+    table{ width:100%; border-collapse:collapse; font-size:13px; }
+    th, td{ padding:10px 8px; border-bottom:1px solid rgba(255,255,255,.08); }
+    th{ text-align:left; color:#9ca3af; font-weight:600; }
+    .muted{ color:#9ca3af; }
+    .right{ text-align:right; }
+    .badge{
+      display:inline-block; padding:2px 8px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.04);
+      font-size:12px; color:#cbd5e1;
     }
-
-    .card {
-      background: radial-gradient(circle at top left, #1d2537, #020617);
-      border-radius: 1.25rem;
-      padding: 24px 24px 20px;
-      box-shadow: 0 20px 45px rgba(0,0,0,0.6);
-      border: 1px solid rgba(148,163,184,0.25);
-    }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background-color: rgba(34,197,94,0.08);
-      color: #bbf7d0;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
-
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background-color: #22c55e;
-    }
-
-    .station-name {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .meta {
-      font-size: 0.85rem;
-      color: #9ca3af;
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 8px;
-    }
-
-    .pill {
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.3);
-      padding: 4px 10px;
-      font-size: 0.8rem;
-      color: #e5e7eb;
-      background-color: rgba(15,23,42,0.8);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .stat {
-      padding: 10px 12px;
-      border-radius: 0.9rem;
-      background-color: rgba(15,23,42,0.95);
-      border: 1px solid rgba(55,65,81,0.7);
-    }
-
-    .stat-label {
-      font-size: 0.75rem;
-      color: #9ca3af;
-      margin-bottom: 3px;
-    }
-
-    .stat-value {
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-
-    .list {
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px dashed rgba(75,85,99,0.8);
-    }
-
-    .list-title {
-      font-size: 0.9rem;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-
-    .species-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .species-chip {
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.4);
-      font-size: 0.8rem;
-      background-color: rgba(31,41,55,0.9);
-    }
-
-    .weather {
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px dashed rgba(75,85,99,0.8);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 0.85rem;
-      color: #d1d5db;
-    }
-
-    .weather-pill {
-      border-radius: 999px;
-      padding: 4px 10px;
-      background-color: rgba(15,23,42,0.9);
-      border: 1px solid rgba(55,65,81,0.8);
-    }
-
-    .footer {
-      margin-top: 20px;
-      font-size: 0.75rem;
-      color: #6b7280;
-      text-align: right;
-    }
-
-    @media (max-width: 640px) {
-      body {
-        padding: 16px;
-      }
-      .card {
-        padding: 18px 16px 16px;
-      }
-    }
+    .ok{ color:#86efac; }
+    .warn{ color:#fca5a5; }
+    canvas{ width:100% !important; height:280px !important; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="title">Evened – Session d'écoute</div>
-    <div class="subtitle">Visualisation de la session du jour à partir de tes données locales.</div>
-
-    <div class="card" id="session-card">
-      <!-- Contenu injecté en JS -->
+    <div class="card">
+      <h1 id="title">Evened — Session</h1>
+      <p class="sub" id="subtitle">Chargement…</p>
+      <div style="margin-top:10px; display:flex; flex-wrap:wrap; gap:10px;">
+        <span class="pill" id="pill-device">🎙️ …</span>
+        <span class="pill" id="pill-params">⚙️ …</span>
+        <span class="pill" id="pill-public">🌐 Public: conf > 0.85</span>
+      </div>
     </div>
 
-    <div class="footer">
-      Prototype v0.1 – Affichage d'une seule session depuis <code>session_today.json</code>
+    <div class="card">
+      <div class="kpis" id="kpis"></div>
+    </div>
+
+    <div class="row cols2">
+      <div class="card">
+        <div class="toolbar" style="justify-content:space-between;">
+          <div><strong>📈 Intensité (timeseries)</strong> <span class="muted">(option)</span></div>
+          <span class="muted" id="chart-note"></span>
+        </div>
+        <canvas id="chart"></canvas>
+      </div>
+
+      <div class="card">
+        <div class="toolbar" style="justify-content:space-between;">
+          <div><strong>🐦 Top espèces (public)</strong></div>
+          <select id="speciesMetric">
+            <option value="count">Par nombre</option>
+            <option value="duration">Par durée cumulée</option>
+          </select>
+        </div>
+        <div id="topSpecies"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <strong>🎛️ Events</strong>
+        <input id="q" placeholder="Filtrer (ex: pie, rougegorge, 3 espèces…)" />
+        <label class="pill"><input type="checkbox" id="onlyDetected" /> Uniquement events avec détections</label>
+        <label class="pill"><input type="checkbox" id="onlyMulti" /> ≥ 2 espèces</label>
+        <span class="muted" id="eventsCount"></span>
+      </div>
+      <div style="overflow:auto; margin-top:10px;">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Event</th>
+              <th class="right">Durée</th>
+              <th class="right">Détections</th>
+              <th class="right">Espèces</th>
+              <th>Top espèce</th>
+              <th class="right">Durée cum. (pub)</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
-  <script>
-    function formatDate(isoString) {
-      const d = new Date(isoString);
-      if (isNaN(d)) return "Date inconnue";
-      return d.toLocaleString("fr-FR", {
-        weekday: "short",
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      });
-    }
-
-    function formatDuration(seconds) {
-      if (!seconds || seconds <= 0) return "–";
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      if (h === 0) return `${m} min`;
-      return `${h} h ${m.toString().padStart(2, "0")} min`;
-    }
-
-    async function loadSession() {
-      const card = document.getElementById("session-card");
-
-      try {
-        const resp = await fetch("session_today.json");
-        if (!resp.ok) throw new Error("Impossible de charger session_today.json");
-        const s = await resp.json();
-
-        card.innerHTML = `
-          <div class="card-header">
-            <div>
-              <div class="station-name">${s.station_name || s.station_id}</div>
-              <div class="meta">
-                Session <strong>${s.session_type || "bird_audio"}</strong><br>
-                Du ${formatDate(s.start_time)}<br>
-                Durée : ${formatDuration(s.duration_s)}
-              </div>
-              <div class="pill-row">
-                <div class="pill">Session ID : ${s.session_id}</div>
-                <div class="pill">Station : ${s.station_id}</div>
-              </div>
-            </div>
-            <div class="badge">
-              <span class="badge-dot"></span>
-              Données locales
-            </div>
-          </div>
-
-          <div class="grid">
-            <div class="stat">
-              <div class="stat-label">Nombre de fichiers</div>
-              <div class="stat-value">${s.nb_wav ?? "–"}</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Segments détectés</div>
-              <div class="stat-value">${s.nb_detections ?? "–"}</div>
-            </div>
-            <div class="stat">
-              <div class="stat-label">Espèces différentes</div>
-              <div class="stat-value">${s.nb_species ?? "–"}</div>
-            </div>
-          </div>
-
-          <div class="list">
-            <div class="list-title">Espèces les plus fréquentes</div>
-            <div class="species-list">
-              ${(s.top_species || []).map(name => `
-                <span class="species-chip">${name}</span>
-              `).join("") || "<span style='font-size:0.8rem;color:#6b7280;'>Aucune donnée (pas encore d'analyse BirdNET ?)</span>"}
-            </div>
-          </div>
-
-          <div class="weather">
-            <span class="list-title" style="margin-bottom:0;">Conditions météo au début de la session :</span>
-            ${s.weather_at_start ? `
-              <span class="weather-pill">
-                🌡️ ${s.weather_at_start.temperature_C.toFixed
-                  ? s.weather_at_start.temperature_C.toFixed(1)
-                  : s.weather_at_start.temperature_C} °C
-              </span>
-              <span class="weather-pill">
-                💨 ${s.weather_at_start.wind_m_s} m/s
-              </span>
-              <span class="weather-pill">
-                🌧️ ${s.weather_at_start.rain_mm_h} mm/h
-              </span>
-              <span class="weather-pill">
-                ${s.weather_at_start.description || ""}
-              </span>
-            ` : `
-              <span style="font-size:0.8rem;color:#6b7280;">
-                Pas d'information météo liée à cette session.
-              </span>
-            `}
-          </div>
-        `;
-      } catch (e) {
-        console.error(e);
-        card.innerHTML = `
-          <div style="color:#fca5a5;font-size:0.9rem;">
-            Erreur : impossible de charger <code>session_today.json</code>.<br>
-            Vérifie que le fichier est dans le même dossier que <code>index.html</code>.
-          </div>
-        `;
-      }
-    }
-
-    loadSession();
-  </script>
+  <!-- Chart.js (simple et fiable) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
