@@ -1,0 +1,483 @@
+{
+  "schema_version": "1.0",
+  "session": {
+    "session_id": "20260111_003017",
+    "title": "Session Evened",
+    "start_time": "2026-01-11T00:30:17+01:00",
+    "end_time": "2026-01-11T13:24:18+01:00",
+    "timezone": "Europe/Paris",
+    "location": {
+      "name": "",
+      "lat": null,
+      "lon": null,
+      "privacy": "private"
+    },
+    "session_dir": "/home/villedieurio/evened/keep/20260111_003017"
+  },
+  "recorder": {
+    "name": "Evened Recorder",
+    "version": "1.0",
+    "device": "RØDE AI-Micro: USB Audio (hw:3,0) (idx=1)",
+    "mic": "",
+    "gain_db": null
+  },
+  "params": {
+    "mode": "split_peak",
+    "threshold_peak": 0.04,
+    "min_event_duration_s": 6.0,
+    "max_silence_s": 3.0,
+    "prebuffer_s": 3.0,
+    "max_event_duration_s": 600
+  },
+  "stats": {
+    "duration_total_s": 46441,
+    "events_count": 810,
+    "active_time_s": 7463.01,
+    "active_ratio": 0.1607,
+    "event_duration_min_s": 6.14,
+    "event_duration_median_s": 7.0,
+    "event_duration_mean_s": 9.21,
+    "event_duration_max_s": 113.32,
+    "detections_count": 1069,
+    "detections_non_nocall_count": 612,
+    "species_unique_count": 37
+  },
+  "records": {
+    "peak_max": 0.91797,
+    "longest_event_id": "event_20260111_003215_006",
+    "longest_event_duration_s": 113.32,
+    "highest_confidence_non_nocall": 0.9989,
+    "highest_confidence_full_non_nocall": 0.9989,
+    "highest_confidence_public": 0.9989,
+    "top_species_public_by_duration": {
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "duration_s": 370.72
+    }
+  },
+  "top_species": [
+    {
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "detections": 191,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "eurrob1",
+      "common_name": "Rougegorge familier",
+      "detections": 96,
+      "confidence_max": 0.9913
+    },
+    {
+      "species_code": "blutit",
+      "common_name": "Mésange bleue",
+      "detections": 85,
+      "confidence_max": 0.9358
+    },
+    {
+      "species_code": "eurjac",
+      "common_name": "Choucas des tours",
+      "detections": 74,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "gretit1",
+      "common_name": "Mésange charbonnière",
+      "detections": 23,
+      "confidence_max": 0.9162
+    },
+    {
+      "species_code": "grswoo",
+      "common_name": "Pic épeiche",
+      "detections": 22,
+      "confidence_max": 0.9532
+    },
+    {
+      "species_code": "firecr1",
+      "common_name": "Roitelet triple-bandeau",
+      "detections": 17,
+      "confidence_max": 0.9745
+    },
+    {
+      "species_code": "comchi1",
+      "common_name": "Pouillot véloce",
+      "detections": 11,
+      "confidence_max": 0.9518
+    },
+    {
+      "species_code": "carcro1",
+      "common_name": "Corneille noire",
+      "detections": 11,
+      "confidence_max": 0.6193
+    },
+    {
+      "species_code": "comcha",
+      "common_name": "Pinson des arbres",
+      "detections": 10,
+      "confidence_max": 0.5999
+    }
+  ],
+  "highlights": [
+    {
+      "type": "species_high_confidence",
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "confidence_max": 0.9989,
+      "detections": 191
+    },
+    {
+      "type": "species_high_confidence",
+      "species_code": "eurjac",
+      "common_name": "Choucas des tours",
+      "confidence_max": 0.9989,
+      "detections": 74
+    },
+    {
+      "type": "species_high_confidence",
+      "species_code": "eurrob1",
+      "common_name": "Rougegorge familier",
+      "confidence_max": 0.9913,
+      "detections": 96
+    },
+    {
+      "type": "species_high_confidence",
+      "species_code": "winwre4",
+      "common_name": "Troglodyte mignon",
+      "confidence_max": 0.9885,
+      "detections": 3
+    },
+    {
+      "type": "species_high_confidence",
+      "species_code": "eugwoo2",
+      "common_name": "Pic vert",
+      "confidence_max": 0.9877,
+      "detections": 3
+    },
+    {
+      "type": "species_high_confidence",
+      "species_code": "firecr1",
+      "common_name": "Roitelet triple-bandeau",
+      "confidence_max": 0.9745,
+      "detections": 17
+    },
+    {
+      "type": "species_high_confidence",
+      "species_code": "hawfin",
+      "common_name": "Gros-bec casse-noyaux",
+      "confidence_max": 0.974,
+      "detections": 3
+    },
+    {
+      "type": "long_event",
+      "event_id": "event_20260111_003215_006",
+      "duration_s": 113.32
+    }
+  ],
+  "assets": {
+    "events_csv": "events_20260111_003017.csv",
+    "detections_csv": "detections_20260111_003017.csv",
+    "timeseries_csv": "timeseries_10s_20260111_003017.csv",
+    "cover_image": ""
+  },
+  "filtering": {
+    "public_rule": "confidence > 0.85 AND species_code != 'nocall'",
+    "public_confidence_threshold": 0.85
+  },
+  "stats_full": {
+    "detections_count_all": 1069,
+    "detections_count_non_nocall": 612,
+    "species_unique_count_non_nocall": 37
+  },
+  "stats_public": {
+    "detections_count": 208,
+    "species_unique_count": 14
+  },
+  "top_species_full_by_count": [
+    {
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "detections": 191,
+      "duration_s": 571.72,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "eurrob1",
+      "common_name": "Rougegorge familier",
+      "detections": 96,
+      "duration_s": 285.53,
+      "confidence_max": 0.9913
+    },
+    {
+      "species_code": "blutit",
+      "common_name": "Mésange bleue",
+      "detections": 85,
+      "duration_s": 251.84,
+      "confidence_max": 0.9358
+    },
+    {
+      "species_code": "eurjac",
+      "common_name": "Choucas des tours",
+      "detections": 74,
+      "duration_s": 214.22,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "gretit1",
+      "common_name": "Mésange charbonnière",
+      "detections": 23,
+      "duration_s": 67.8,
+      "confidence_max": 0.9162
+    },
+    {
+      "species_code": "grswoo",
+      "common_name": "Pic épeiche",
+      "detections": 22,
+      "duration_s": 64.79,
+      "confidence_max": 0.9532
+    },
+    {
+      "species_code": "firecr1",
+      "common_name": "Roitelet triple-bandeau",
+      "detections": 17,
+      "duration_s": 46.44,
+      "confidence_max": 0.9745
+    },
+    {
+      "species_code": "comchi1",
+      "common_name": "Pouillot véloce",
+      "detections": 11,
+      "duration_s": 30.16,
+      "confidence_max": 0.9518
+    },
+    {
+      "species_code": "carcro1",
+      "common_name": "Corneille noire",
+      "detections": 11,
+      "duration_s": 33.0,
+      "confidence_max": 0.6193
+    },
+    {
+      "species_code": "comcha",
+      "common_name": "Pinson des arbres",
+      "detections": 10,
+      "duration_s": 30.0,
+      "confidence_max": 0.5999
+    }
+  ],
+  "top_species_full_by_duration": [
+    {
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "detections": 191,
+      "duration_s": 571.72,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "eurrob1",
+      "common_name": "Rougegorge familier",
+      "detections": 96,
+      "duration_s": 285.53,
+      "confidence_max": 0.9913
+    },
+    {
+      "species_code": "blutit",
+      "common_name": "Mésange bleue",
+      "detections": 85,
+      "duration_s": 251.84,
+      "confidence_max": 0.9358
+    },
+    {
+      "species_code": "eurjac",
+      "common_name": "Choucas des tours",
+      "detections": 74,
+      "duration_s": 214.22,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "gretit1",
+      "common_name": "Mésange charbonnière",
+      "detections": 23,
+      "duration_s": 67.8,
+      "confidence_max": 0.9162
+    },
+    {
+      "species_code": "grswoo",
+      "common_name": "Pic épeiche",
+      "detections": 22,
+      "duration_s": 64.79,
+      "confidence_max": 0.9532
+    },
+    {
+      "species_code": "firecr1",
+      "common_name": "Roitelet triple-bandeau",
+      "detections": 17,
+      "duration_s": 46.44,
+      "confidence_max": 0.9745
+    },
+    {
+      "species_code": "carcro1",
+      "common_name": "Corneille noire",
+      "detections": 11,
+      "duration_s": 33.0,
+      "confidence_max": 0.6193
+    },
+    {
+      "species_code": "comchi1",
+      "common_name": "Pouillot véloce",
+      "detections": 11,
+      "duration_s": 30.16,
+      "confidence_max": 0.9518
+    },
+    {
+      "species_code": "comcha",
+      "common_name": "Pinson des arbres",
+      "detections": 10,
+      "duration_s": 30.0,
+      "confidence_max": 0.5999
+    }
+  ],
+  "top_species_public_by_count": [
+    {
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "detections": 124,
+      "duration_s": 370.72,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "eurrob1",
+      "common_name": "Rougegorge familier",
+      "detections": 34,
+      "duration_s": 102.0,
+      "confidence_max": 0.9913
+    },
+    {
+      "species_code": "eurjac",
+      "common_name": "Choucas des tours",
+      "detections": 28,
+      "duration_s": 81.7,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "firecr1",
+      "common_name": "Roitelet triple-bandeau",
+      "detections": 5,
+      "duration_s": 14.02,
+      "confidence_max": 0.9745
+    },
+    {
+      "species_code": "comchi1",
+      "common_name": "Pouillot véloce",
+      "detections": 3,
+      "duration_s": 9.0,
+      "confidence_max": 0.9518
+    },
+    {
+      "species_code": "blutit",
+      "common_name": "Mésange bleue",
+      "detections": 3,
+      "duration_s": 9.0,
+      "confidence_max": 0.9358
+    },
+    {
+      "species_code": "eugwoo2",
+      "common_name": "Pic vert",
+      "detections": 2,
+      "duration_s": 6.0,
+      "confidence_max": 0.9877
+    },
+    {
+      "species_code": "grswoo",
+      "common_name": "Pic épeiche",
+      "detections": 2,
+      "duration_s": 6.0,
+      "confidence_max": 0.9532
+    },
+    {
+      "species_code": "gretit1",
+      "common_name": "Mésange charbonnière",
+      "detections": 2,
+      "duration_s": 6.0,
+      "confidence_max": 0.9162
+    },
+    {
+      "species_code": "winwre4",
+      "common_name": "Troglodyte mignon",
+      "detections": 1,
+      "duration_s": 3.0,
+      "confidence_max": 0.9885
+    }
+  ],
+  "top_species_public_by_duration": [
+    {
+      "species_code": "eurmag1",
+      "common_name": "Pie bavarde",
+      "detections": 124,
+      "duration_s": 370.72,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "eurrob1",
+      "common_name": "Rougegorge familier",
+      "detections": 34,
+      "duration_s": 102.0,
+      "confidence_max": 0.9913
+    },
+    {
+      "species_code": "eurjac",
+      "common_name": "Choucas des tours",
+      "detections": 28,
+      "duration_s": 81.7,
+      "confidence_max": 0.9989
+    },
+    {
+      "species_code": "firecr1",
+      "common_name": "Roitelet triple-bandeau",
+      "detections": 5,
+      "duration_s": 14.02,
+      "confidence_max": 0.9745
+    },
+    {
+      "species_code": "blutit",
+      "common_name": "Mésange bleue",
+      "detections": 3,
+      "duration_s": 9.0,
+      "confidence_max": 0.9358
+    },
+    {
+      "species_code": "comchi1",
+      "common_name": "Pouillot véloce",
+      "detections": 3,
+      "duration_s": 9.0,
+      "confidence_max": 0.9518
+    },
+    {
+      "species_code": "eugwoo2",
+      "common_name": "Pic vert",
+      "detections": 2,
+      "duration_s": 6.0,
+      "confidence_max": 0.9877
+    },
+    {
+      "species_code": "gretit1",
+      "common_name": "Mésange charbonnière",
+      "detections": 2,
+      "duration_s": 6.0,
+      "confidence_max": 0.9162
+    },
+    {
+      "species_code": "grswoo",
+      "common_name": "Pic épeiche",
+      "detections": 2,
+      "duration_s": 6.0,
+      "confidence_max": 0.9532
+    },
+    {
+      "species_code": "cowpig1",
+      "common_name": "Pigeon ramier",
+      "detections": 1,
+      "duration_s": 3.0,
+      "confidence_max": 0.9238
+    }
+  ]
+}
